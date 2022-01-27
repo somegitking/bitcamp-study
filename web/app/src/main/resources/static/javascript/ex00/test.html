@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+<h1>요점 정리 - 5.HTML 태그와 DOM 트리 객체 응용</h1>
+<form>
+  <button type="button" id="btnAddName">추가</button>
+  <button type="button" id="btn1">확인</button>
+
+  <div id = "inputNameContainer">
+    <div class="inputName">
+      <span class = "name">이름1</span>: <input type = "text" name="name1"><br>
+    </div>
+  </div>
+
+</form>
+
+<script type="text/javascript">
+var inputNameIndex = 1;
+var btnAddName = document.getElementById("btnAddName");
+var inputNameContainer = document.querySelector("#inputNameContainer")
+var inputNameDiv = document.querySelector(".inputName");
+
+btnAddName.onclick = function () {
+  inputNameIndex++;
+  var e = inputNameDiv.cloneNode(true);
+  e.querySelector(".name").innerHTML = "이름" + inputNameIndex;
+  e.querySelector("input").name = "name" + inputNameIndex;
+  e.querySelector("input").value = "";
+  inputNameContainer.appendChild(e);
+
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+  </body>
+</html>
