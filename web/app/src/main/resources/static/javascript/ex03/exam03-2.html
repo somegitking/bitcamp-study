@@ -46,9 +46,10 @@ function f1(a) {
   
   console.log("----------------");
   // 참고!
-  // => Array()로 만든 배열에는 reduce() 함수가 있다.
+  // => Array()로 만  든 배열에는 reduce() 함수가 있다.
   // => 합계 등을 계산할 때 유용하다.
-  arr.reduce(function(sum, value) {
+  arr11 = [100, 200, 300, 400, 500, 600, 700]
+  arr11.reduce(function(sum, value) {
     console.log(sum, value)
     return sum + value;
   });

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex02</title>
+</head>
+<body>
+<h1>반복문 - for(변수 선언 of iterable 객체)</h1>
+<script>
+"use strict"
+
+let obj = new Object();
+
+obj.a = 1;
+obj.b = 2;
+obj.c = "aa";
+obj.d = "bb";
+
+for(var i  in obj){
+	console.log(i);
+}
+
+let obj1 = new Map();
+
+obj1.set("2asdf34","23sdf4");
+obj1.set("234sdf1","234f2");
+obj1.set("234gsdf11","2f3422");
+obj1.set("23411d1","2d34222");
+
+for (var [key, value] of obj1) {
+	  console.log(key, "=", value);
+	}
+
+
+
+</script>
+</body>
+</html>

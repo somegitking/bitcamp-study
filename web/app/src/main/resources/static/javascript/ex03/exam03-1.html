@@ -26,7 +26,8 @@ console.log("----------------");
 
 function f2(a) {
 	for (var i = 0; i < arguments.length; i++) {
-		console.log(arguments[i]);
+		console.log("f2: " + arguments + arguments[i]);
+	    console.log("f2: " + arguments+ arguments[i]);
 	}
 }
 f2(100, 200, 300, 400);
@@ -34,7 +35,7 @@ console.log("----------------");
 
 function f3(a) {
   for (var value of arguments) {
-    console.log(value);
+    console.log("f3: " +value);
   }
 }
 
@@ -43,7 +44,7 @@ console.log("----------------");
 
 function f4(a) {
   for (var i in arguments) {
-    console.log(arguments[i]);
+    console.log("f4: " + arguments[i]);
   }
 }
 
