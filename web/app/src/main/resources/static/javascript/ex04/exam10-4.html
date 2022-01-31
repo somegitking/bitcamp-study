@@ -46,6 +46,15 @@ for (var score of scores) {
     console.log(score.name, score.kor, score.eng, score.math,
     		score.sum(), score.aver());
 }
+
+scores[2].kor = 50;
+
+for (var score of scores) {
+    console.log(score.name, score.kor, score.eng, score.math,
+        score.sum(), score.aver());
+}
+
+
 </script>
 </body>
 </html>

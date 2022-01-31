@@ -40,11 +40,18 @@ scores[2] = new createScore("유관순", 80, 80, 80);
 // 이렇게 new 명령을 통해 생성된
 // 기본 객체를 초기화시키는 함수를 "생성자(constructor)" 라고 부른다.
 
-
+console.log("test1")
 for (var score of scores) {
     console.log(score.name, score.kor, score.eng, score.math,
             score.sum(), score.aver());
 }
+console.log("test2")
+for (var score of scores) {
+    console.log(score);
+}
+
+console.log("test3")
+    console.log(scores);
 
 // 다음과 같이 생성된 객체를 초기화시키는 것이 아니라
 // 객체를 생성해두는 일을 하는 함수는

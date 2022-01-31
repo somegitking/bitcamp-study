@@ -14,7 +14,7 @@ function f1() {
 }
 
 function f2() {
-  f1.call(this); // 상위 생성자를 호출해야 한다.
+//  f1.call(this); // 상위 생성자를 호출해야 한다.
   this.email = "hong@test.com";
 }
 f2.prototype = Object.create(f1.prototype);
@@ -31,6 +31,16 @@ var obj0 = new Object();
 var obj1 = new f1();
 var obj2 = new f2();
 var obj3 = new f3();
+
+
+
+console.log(obj3);
+console.log(obj2);
+console.log(obj1);
+console.log("-----------------------");
+console.log("-----------------------");
+console.log("-----------------------");
+
 
 console.log(obj0 instanceof Object);
 console.log(obj0 instanceof f1);
