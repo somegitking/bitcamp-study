@@ -18,8 +18,10 @@ public class ServerApp {
 
       // 클라이언트의 요청을 처리할 작업자를 만든다.
       Worker worker = new Worker(socket);
-      System.out.println(socket);
       worker.start(); // 작업자에게 일을 시킨 후 즉시 리턴한다.
+      //      Worker01 worker1 = new Worker01(socket);
+      //      worker1.start(); // 작업자에게 일을 시킨 후 즉시 리턴한다.
+
       System.out.println("작업자에게 클라이언트 요청을 맡겼음!");
     }
 
