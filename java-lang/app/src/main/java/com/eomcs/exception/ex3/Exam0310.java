@@ -18,6 +18,14 @@ public class Exam0310 {
       throw new IOException();
   }
 
-  public static void main(String[] args) {}
+  public static void main(String[] args) {
+    try {
+      m(-1);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
 
 }

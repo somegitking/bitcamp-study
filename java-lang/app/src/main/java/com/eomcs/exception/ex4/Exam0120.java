@@ -8,7 +8,7 @@ public class Exam0120 {
     m2();
   }
 
-  static void m2() throws Exception  {
+  static void m2() throws Exception {
     // m3()에서 발생된 예외를 상위 호출자에게 던지려면
     // m2() 메서드에서도 선언부에 예외를 기술해야 한다.
     // => m2() 안에서 Exception 예외가 발생합니다" 라고!
@@ -39,7 +39,7 @@ public class Exam0120 {
 
     // Exception 계열의 예외를 상위 호출자에게 전달하려면,
     // 그 호출 경로에 있는 모든 메서드에
-    // throws 문장을 선언해야 하는 번거로움이 있다.
+    // throws 문장을 선언해야 하는 버거로움이 있다.
     // 어쩔 수 없다!
     // 무조건 선언해야 한다.
   }
