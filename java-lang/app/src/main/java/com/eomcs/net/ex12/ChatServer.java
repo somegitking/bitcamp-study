@@ -1,16 +1,11 @@
 package com.eomcs.net.ex12;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ChatServer {
-
-  // 연결된 클라이언트의 출력 스트림을 보관하는 목록
-  ArrayList<PrintStream> outputStreams = new ArrayList<>();
 
   int port;
 
@@ -19,85 +14,55 @@ public class ChatServer {
   }
 
   public void service() {
-    try (ServerSocket serverSocket = new ServerSocket(port)) {
-      System.out.println("채팅 서버 시작!");
+    //ServerSocket 객체는 Socket 객체와 다르다.
+    //ChatServer 인스턴스가 생성되면서 8888 포트 번호가 전달됨.
+    try (ServerSocket serverSocket = new ServerSocket(this.port)) {
+      System.out.println("서버 실행 중...");
 
-      while (true) {
-        new Thread(new ChatAgent(serverSocket.accept())).start();
-        System.out.println("채팅 클라이언트가 연결되었음!");
+      while (true) {//클라이언트가 하나 대기열에 걸릴 때 까지 기다린다.
+        //start()는 thread의 메소드이다
+        new RequestHandler(serverSocket.accept()).start();
       }
 
     } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println("서버 실행 오류 - " + e.getMessage());
     }
   }
 
-  synchronized private void send(String message) {
-    for (PrintStream out : outputStreams) {
-      try {
-        out.println(message);
-      } catch (Exception e) {
-        // 출력이 안되는 스트림은 다음에 사용하지 않기 위해 목록에서 제거한다.
-        outputStreams.remove(out);
-      }
-    }
-  }
-
-  class ChatAgent implements Runnable {
-
+  class RequestHandler extends Thread { //Tread를 상속 받는다.
     Socket socket;
 
-    public ChatAgent(Socket socket) {
-      this.socket = socket;
+    public RequestHandler(Socket socket) {//생성자가 호출되면 
+      this.socket = socket; //파라미터로 넘어온 객체를 socket에 저장
     }
 
     @Override
     public void run() {
-      try (Socket socket = this.socket;
-          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-          PrintStream out = new PrintStream(socket.getOutputStream())) {
+      try (Socket socket2 = socket; //소켓을 자동으로 클로즈 하기 위함.
+          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+          DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
-        // 출력 스트림을 ChatServer에 보관한다.
-        outputStreams.add(out);
+        out.writeUTF("환영합니다!"); //서버 접속시 첫 메시지
+        out.flush();
 
         while (true) {
-          String message = in.readLine();
-          if (message.equals("quit"))
+          String message = in.readUTF(); //클라언트가 보낸 문자열을 읽어 들인가
+          if (message.equals("\\quit")) {//\\quit를 입력 하면 종료한다
+            out.writeUTF("Goodbye!");
+            out.flush();
             break;
-
-          // 채팅 방에 참여한 모든 사람들에게 메시지를 전달한다.
-          // => 메시지를 전문적으로 보내는 일을 하는 객체에 맡긴다.
-          new Thread(new MessageSender(message)).start();
+          }
+          out.writeUTF(message);//읽어 들인 문자열을 출력한다.
+          out.flush();
         }
-
-        // 채팅 방에 참여한 모든 사람들에게 퇴장 메시지를 전달한다.
-
       } catch (Exception e) {
-        e.printStackTrace();
+        System.out.println("클라이언트와의 통신 오류! - " + e.getMessage());
       }
-      System.out.println("채팅 클라이언트가 종료되었음!");
     }
   }
 
-  class MessageSender implements Runnable {
-    String message;
-
-    public MessageSender(String message) {
-      this.message = message;
-    }
-
-    @Override
-    public void run() {
-      // 바깥 클래스의 메서드를 호출하여 메시지를 보낸다.
-      send(message);
-    }
-  }
 
   public static void main(String[] args) {
-    ChatServer chatServer = new ChatServer(8888);
-    chatServer.service();
+    new ChatServer(8888).service();//인스턴스 생성하여 메소드 호출
   }
-
 }
-
-
