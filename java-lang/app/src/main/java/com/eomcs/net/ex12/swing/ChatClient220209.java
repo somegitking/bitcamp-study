@@ -18,7 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-public class ChatClient extends JFrame {
+public class ChatClient220209 extends JFrame {
   private static final long serialVersionUID = 1L;
 
   //계속 사용해야 하기 때문에 인스턴스 변수로 선언함
@@ -31,7 +31,7 @@ public class ChatClient extends JFrame {
   JTextArea messageListTa = new JTextArea(); //채팅창 내용 영역 객체 생성
   JTextField messageTf = new JTextField(35); //채팅 입력창 영역 객체 생성
 
-  public ChatClient() {
+  public ChatClient220209() {
     super("채팅!!");
     addWindowListener(new WindowAdapter() {
       @Override
@@ -72,7 +72,7 @@ public class ChatClient extends JFrame {
 
   public static void main(String[] args) throws Exception { //메인함수
     UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); //채팅창 윈도우의 스타일 지정
-    new ChatClient();
+    new ChatClient220209();
   }
 
   public void connectChatServer(ActionEvent e) { //채팅 서버에 접속하는 메소드
