@@ -13,7 +13,7 @@ public class Exam0652 {
     // 메서드 한 개짜리 인터페이스인 경우 
     // 람다(lambda) 문법을 사용하면 훨씬 더 간결하게 코드를 작성할 수 있다.
     // => expression 은 return 문장을 생략할 수 있다.
-    File[] files = dir.listFiles(file -> file.isFile() && file.getName().endsWith(".java"));
+    File[] files = dir.listFiles(file -> file.isFile() && file.getName().endsWith(".pdf"));
 
     for (File file : files) {
       System.out.printf("%s %12d %s\n", file.isDirectory() ? "d" : "-", file.length(),

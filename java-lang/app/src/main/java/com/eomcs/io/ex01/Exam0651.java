@@ -14,7 +14,7 @@ public class Exam0651 {
     // 람다(lambda) 문법을 사용하면 훨씬 더 간결하게 코드를 작성할 수 있다.
     // => (조건) ? 값1 : 값2
     File[] files = dir.listFiles(file -> 
-    (file.isFile() && file.getName().endsWith(".java")) ? true : false);
+    (file.isFile() && file.getName().endsWith(".data")) ? true : false);
 
     for (File file : files) {
       System.out.printf("%s %12d %s\n", file.isDirectory() ? "d" : "-", file.length(),

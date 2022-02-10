@@ -18,7 +18,7 @@ public class Exam0620 {
         // true 이면 배열에 포함시키고,
         // false 이면 배열에서 제외한다.
         //
-        if (file.isFile() && file.getName().endsWith(".java"))
+        if (file.isFile() && file.getName().endsWith(".txt"))
           return true; // 조회 결과에 포함시켜라!
         return false; // 조회 결과에서 제외하라!
       }

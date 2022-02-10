@@ -21,94 +21,129 @@ import javax.swing.UIManager;
 public class ChatClient extends JFrame {
   private static final long serialVersionUID = 1L;
 
-  //계속 사용해야 하기 때문에 인스턴스 변수로 선언함
   Socket socket;
   DataInputStream in;
   DataOutputStream out;
+  String nickname;
 
-  JTextField addressTf = new JTextField(30); //IP 주소 입력창 객체 생성
-  JTextField portTf = new JTextField(4); //Port 번호 입력창 객체 생성
-  JTextArea messageListTa = new JTextArea(); //채팅창 내용 영역 객체 생성
-  JTextField messageTf = new JTextField(35); //채팅 입력창 영역 객체 생성
+  JTextField addressTf = new JTextField(30);
+  JTextField portTf = new JTextField(4);
+  JButton connectBtn = new JButton("연결");
+
+  JTextArea messageListTa = new JTextArea();
+  JTextField messageTf = new JTextField(35);
 
   public ChatClient() {
-    super("채팅!!");
+
+    String title = "대화명을 입력하세요.\n(2자 이상)";
+
+    while (true) {
+      nickname = JOptionPane.showInputDialog(title);
+      if (nickname == null) {
+        System.exit(0);
+      } else if (nickname.length() >= 2) {
+        break;
+      }
+      title = "대화명을 다시 입력하세요!\n(2자 이상)";
+    }
+
+    setTitle("채팅!! - " + nickname);
+
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
+        if (connectBtn.getText().equals("종료")) { // 
+          try {
+            out.writeUTF("\\quit");
+            out.flush();
+          } catch (Exception ex) { 
+          }
+        }
         try {in.close();} catch (Exception ex) {}
         try {out.close();} catch (Exception ex) {}
-        try {socket.close();} catch (Exception ex) {} //소켓을 제일 마지막에 닫느다.입출력 스트림 보다 먼저 닫으면 안된다. 
+        try {socket.close();} catch (Exception ex) {}
         System.exit(0);
       }
     });
-    setSize(500, 400);//cc
+    setSize(500, 400);
 
-    Container contentPane = this.getContentPane(); //채팅창 전체 객체 생성
-    JPanel topPanel = new JPanel(); //윗쪽 패널(IP주소, Port번호, 입력 버튼) 객체 생성
+    Container contentPane = this.getContentPane();
+    JPanel topPanel = new JPanel();
     topPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // 기본 레이아웃 관리자를 교체
-    topPanel.add(addressTf);//IP 주소 입력창 추가
-    topPanel.add(portTf); //port 번호 입력창 추가
-    JButton connectBtn = new JButton("연결"); //연결 버튼 객체 생성
-    connectBtn.addActionListener(this::connectChatServer); //연결 버튼 클릭시 connectChatServer 메소드 실행
-    topPanel.add(connectBtn); //연결 버튼 추가
-    contentPane.add(topPanel, BorderLayout.NORTH); //위쪽에 배치
+    topPanel.add(addressTf);
+    topPanel.add(portTf);
+    connectBtn.addActionListener(this::connectChatServer);
+    topPanel.add(connectBtn);
+    contentPane.add(topPanel, BorderLayout.NORTH);
 
-    JScrollPane scrollPane = new JScrollPane(messageListTa); //스크롤 바 객체 생성
-    contentPane.add(scrollPane, BorderLayout.CENTER); // 중앙에 배치 
+    JScrollPane scrollPane = new JScrollPane(messageListTa);
+    contentPane.add(scrollPane, BorderLayout.CENTER);
 
-    JPanel bottomPanel = new JPanel(); //아래쪽 패널(채팅 입력, 보내기 버튼) 객체 생성
+    JPanel bottomPanel = new JPanel();
     bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // 기본 레이아웃 관리자를 교체
-    bottomPanel.add(messageTf); //채팅 내용 추가
-    JButton sendBtn = new JButton("보내기"); //보내기 버튼 객체 생성
-    sendBtn.addActionListener(this::sendMessage); //버튼을 누르면 채팅 메시지 전송
-    bottomPanel.add(sendBtn);//보내기 버튼 추가
-    contentPane.add(bottomPanel, BorderLayout.SOUTH); //아래쪽에 배치
+    bottomPanel.add(messageTf);
+    JButton sendBtn = new JButton("보내기");
+    sendBtn.addActionListener(this::sendMessage);
+    bottomPanel.add(sendBtn);
+    contentPane.add(bottomPanel, BorderLayout.SOUTH);
 
-    messageTf.addActionListener(this::sendMessage); //엔터를 눌러도 채팅 메시지 전송
+    messageTf.addActionListener(this::sendMessage);
 
-    setVisible(true);//조건이 true일 경우 채팅창이 보여짐
+    setVisible(true);
   }
 
-  public static void main(String[] args) throws Exception { //메인함수
-    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); //채팅창 윈도우의 스타일 지정
+  public static void main(String[] args) throws Exception {
+    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
     new ChatClient();
   }
 
-  public void connectChatServer(ActionEvent e) { //채팅 서버에 접속하는 메소드
-    System.out.println("서버에 연결하기!");
+  public void connectChatServer(ActionEvent e) {
+    if (connectBtn.getText().equals("연결")) {
+      try {
+        socket = new Socket(
+            addressTf.getText(), 
+            Integer.parseInt(portTf.getText()));
 
-    try {
-      socket = new Socket( //IP주소와 port 번호로 채팅 서버에 접속을 시도한다.
-          addressTf.getText(), //IP 번호 입력창에서 IP 주소를 받아 온다.
-          Integer.parseInt(portTf.getText())); //port 번호 입력창에서 port 번호를 받아 온다.
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
 
-      in = new DataInputStream(socket.getInputStream());//입력 스트림 인스턴스 생성
-      out = new DataOutputStream(socket.getOutputStream());//출력 스트림 인스턴스 생성
+        out.writeUTF(nickname);
+        out.flush();
 
-      new MessageReceiver(in).start();//서버로 부터 메시지를 받는 인스턴스 생성
+        new MessageReceiver(in).start();
 
-    } catch (Exception ex) {
-      JOptionPane.showMessageDialog(this, "서버 연결 오류!", "통신 오류!", JOptionPane.ERROR_MESSAGE);
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "서버 연결 오류!", "통신 오류!", JOptionPane.ERROR_MESSAGE);
+      }
+
+      connectBtn.setText("종료");
+    } else {
+      try {
+        out.writeUTF("\\quit");
+        out.flush();
+      } catch (Exception ex) { 
+      }
+      connectBtn.setText("연결");
+      messageListTa.setText("");
     }
   }
 
   public void sendMessage(ActionEvent e) {
-    if (messageTf.getText().length() == 0) {//채팅 입력창에 아무것도 없으면 아무일도 하지 않고 제어를 넘긴다.
+    if (messageTf.getText().length() == 0) {
       return;
     }
 
     try {
-      out.writeUTF(messageTf.getText());//채팅 메시지 입력란의 문자열을 가져와 출력 시도
+      out.writeUTF(messageTf.getText());
       out.flush();
-      messageTf.setText(""); //채팅 메시지 입력란 안의 문자열을 지운다. 보낸 문자열을 지운다.
+      messageTf.setText("");
 
     } catch (Exception ex) {
       JOptionPane.showMessageDialog(this, "메서지 전송 오류!", "통신 오류!", JOptionPane.ERROR_MESSAGE);
     }
   }
 
-  class MessageReceiver extends Thread { //서버로 부터 메시지를 받아오는 일을 하는 객체
+  class MessageReceiver extends Thread {
 
     DataInputStream in;
 
@@ -120,8 +155,11 @@ public class ChatClient extends JFrame {
     public void run() {
       while (true) {
         try {
-          String message = in.readUTF();//서버로 부터 문자열을 읽어서 문자열 변수에 저장한다.
-          messageListTa.append(message + "\n");//가져온 문자열에 \n을 붙여서 채팅창에 한 줄씩 보이게 함.
+          String message = in.readUTF();
+          if (message.equals("<![QUIT[]]>")) { // 서버에서 연결을 끊겠다는 메시지가 오면 스레드를 종료한다.
+            break; // 스레드 종료? run() 메서드의 실행을 마치면 스레드는 종료한다.
+          }
+          messageListTa.append(message + "\n");
 
         } catch (Exception e) {
         }

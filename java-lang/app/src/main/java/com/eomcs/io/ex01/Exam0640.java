@@ -18,7 +18,7 @@ public class Exam0640 {
     File[] files = dir.listFiles(new FileFilter() {
       @Override
       public boolean accept(File file) {
-        if (file.isFile() && file.getName().endsWith(".java"))
+        if (file.isFile() && file.getName().endsWith(".data"))
           return true;
         return false;
       }
