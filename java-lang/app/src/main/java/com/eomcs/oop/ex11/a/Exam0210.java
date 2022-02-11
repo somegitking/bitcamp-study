@@ -16,6 +16,7 @@ public class Exam0210 {
   static void m1() {} // 스태틱 메서드 = 클래스 메서드
   static {} // 스태틱 블록
 
+  {} //인스턴스 블록
   // 2) non-static nested class = inner class
   // => 바깥 클래스의 인스턴스에 종속되는 클래스.
   //    중첩 클래스에서 바깥 클래스의 인스턴스 멤버를 사용한다는 뜻이다.

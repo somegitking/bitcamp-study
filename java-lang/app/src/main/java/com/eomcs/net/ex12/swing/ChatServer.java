@@ -1,4 +1,4 @@
-package com.eomcs.net.ex12;
+package com.eomcs.net.ex12.swing;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
