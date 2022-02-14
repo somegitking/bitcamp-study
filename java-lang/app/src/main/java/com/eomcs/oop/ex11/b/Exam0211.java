@@ -38,7 +38,7 @@ class B2 {
 public class Exam0211 {
 
   public static void main(String[] args) {
-    B.X obj = new B.X();
+    B2.X obj = new B2.X();
     obj.test();
 
     System.out.println(B.v1);

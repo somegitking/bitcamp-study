@@ -44,6 +44,8 @@ public class Exam0220 {
     outer.m2();
 
 
+
+
     B2 outer2 = new B2();
     outer2.v2 = 200;
     outer2.m2();
