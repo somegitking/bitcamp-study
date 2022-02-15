@@ -8,13 +8,13 @@ public class LinkedList {
   public void add(Object value) { //앞에서 부터 순서대로 노드 추가
     Node node = new Node(value); //노드 객체 생성
 
-    if (head == null) {//head null 첫 node
+    if (head == null) {//head가 null = 첫 node
       tail = head = node;
-    } else { //null 아니면 1개 이상 이미 존제 함으로
+    } else { //null 아니면 1개 이상 이미 존재함으로
       //그 다음에 추가
-      node.prev = tail;//tail의 주소값을 
-      tail.next = node;
-      tail = node;
+      node.prev = tail;//새로 추가한 node에 
+      tail.next = node; //새로 추가한 node를 현재 마지막 다음에 위치
+      tail = node;//새로 추가한 node가 마지막이 된다.
     }
 
     size++;

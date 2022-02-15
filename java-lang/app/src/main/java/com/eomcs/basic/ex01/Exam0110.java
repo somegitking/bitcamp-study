@@ -25,7 +25,7 @@ public class Exam0110 /*extends Object*/ {
 
     // Object를 조상으로 갖는다면 당연히 Object의 메서드를 사용할 수 있을 것이다.
     System.out.println(obj.toString());
-    System.out.println(obj.hashCode());
+    System.out.printf("%08x, %1$d\n", obj.hashCode());
     System.out.println(obj.equals("Hello"));
 
     // 결론!

@@ -47,7 +47,7 @@ public class Test {
   static void printList(LinkedList list) {
     // Iterator를 통해 목록에서 값 꺼내기
     //
-    Iterator iterator = new ListIterator(list);
+    ListIterator iterator = new ListIterator(list);
     while (iterator.hasNext()) {
       System.out.print(iterator.next() + ",");
     }
