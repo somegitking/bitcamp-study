@@ -48,6 +48,7 @@ public abstract class AbstractBoardDao implements BoardDao{
     if(no <0 || no >= boardList.size()) {
       return 0;
     }
+    boardList.remove(no);
     save();
     return 1;
   }
