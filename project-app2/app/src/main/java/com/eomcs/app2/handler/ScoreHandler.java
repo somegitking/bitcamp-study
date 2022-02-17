@@ -2,28 +2,33 @@ package com.eomcs.app2.handler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import com.eomcs.app2.vo.Score;
 import com.eomcs.util.Prompt;
 
-public class ScoreHandler {
+public class ScoreHandler{
   ArrayList<Score> scores = new ArrayList<>();
 
   public ScoreHandler() {
     try (BufferedReader in = new BufferedReader(new FileReader("./score.csv"));) {
       String line;
       while ((line = in.readLine()) != null) {
-        String[] values = line.split(",");
-        Score score = new Score();
-        score.setName(values[0]);
-        score.setKor(Integer.parseInt(values[1]));
-        score.setEng(Integer.parseInt(values[2]));
-        score.setMath(Integer.parseInt(values[3]));
-
-        scores.add(score);
+        scores.add(Score.fromCSV(line));
       }
     } catch (Exception e) {
       System.out.println("데이터 로딩 중 오류 발생!");
+    }
+  }
+
+  private void save() {
+    try (PrintWriter out = new PrintWriter(new FileWriter("./score.csv"));) {
+      for (Score score : scores) {
+        out.println(score.toCSV());
+      }
+    } catch (Exception e) {
+      System.out.println("데이터 저장 중 오류 발생!");
     }
   }
 
@@ -35,6 +40,7 @@ public class ScoreHandler {
     score.setMath(Prompt.promptInt("수학? "));
 
     scores.add(score);
+    save();
   }
 
   public void list() {
@@ -80,6 +86,7 @@ public class ScoreHandler {
     score.setMath(Prompt.promptInt("수학(%d)? ", old.getMath()));
 
     scores.set(no, score);
+    save();
   }
 
   public void delete() {
@@ -90,5 +97,39 @@ public class ScoreHandler {
     }
 
     scores.remove(no);
+    save();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

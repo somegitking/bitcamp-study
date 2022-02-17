@@ -3,7 +3,7 @@ package com.eomcs.app2;
 import com.eomcs.app2.handler.ScoreHandler;
 import com.eomcs.util.Prompt;
 
-public class App {
+public class App{
 
   ScoreHandler scoreHandler = new ScoreHandler();
 
@@ -12,7 +12,6 @@ public class App {
   }
 
   public void service() {
-
     while (true) {
       printMenu();
       String input = Prompt.promptString("명령> ");
@@ -35,10 +34,11 @@ public class App {
         System.out.println("실행 중 오류 발생: " + e.getMessage());
       }
 
-      System.out.println();
-    }
 
-    System.out.println("종료!");
+
+
+
+    }
   }
 
   private void printMenu() {
@@ -53,13 +53,8 @@ public class App {
   private boolean checkQuit(String input) {
     return input.equals("quit") || input.equals("exit");
   }
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
