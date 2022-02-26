@@ -18,8 +18,8 @@ public class NaverNewsApi {
 
   public static void main(String[] args) {
 
-    String clientId = "fIZlEGyQZPJbEPFLkpPH";//애플리케이션 클라이언트 아이디값";
-    String clientSecret = "sKogibI5pe";//애플리케이션 클라이언트 시크릿값";
+    String clientId = "";//애플리케이션 클라이언트 아이디값";
+    String clientSecret = "";//애플리케이션 클라이언트 시크릿값";
     try {
       String text = URLEncoder.encode("아이유", "UTF-8"); //검색어";
       String apiURL = "https://openapi.naver.com/v1/search/news.json?query="+ text + "&display=10&start=1&sort=date"; // 뉴스의 json 결과

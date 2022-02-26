@@ -15,8 +15,8 @@ import java.util.Map;
 public class ApiExamDatalabTrend {
 
   public static void main(String[] args) {
-    String clientId = "fIZlEGyQZPJbEPFLkpPH";//애플리케이션 클라이언트 아이디값";
-    String clientSecret = "sKogibI5pe";//애플리케이션 클라이언트 시크릿값";
+    String clientId = "";//애플리케이션 클라이언트 아이디값";
+    String clientSecret = "";//애플리케이션 클라이언트 시크릿값";
 
     String apiUrl = "https://news.naver.com/";
 
