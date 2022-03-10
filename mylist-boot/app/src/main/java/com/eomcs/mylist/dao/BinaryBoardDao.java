@@ -11,7 +11,7 @@ import com.eomcs.mylist.domain.Board;
 
 
 // 인터페이스를 직접 구현하는 대신에 AbstractBoardDao를 상속 받는다.
-//@Repository
+//
 public class BinaryBoardDao extends AbstractBoardDao {
 
   String filename = "boards.bin";
